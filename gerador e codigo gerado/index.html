@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar</title>
+</head>
+
+<body>
+    <p> <strong>PASSO A PASSO PARA QUE TUDO DE CERTO:</strong><br>
+        1.Crie a Classe(Model) <br>
+        2.Crie o HTML(View) <br>
+        3.Crie o JS(Controller)
+    </p>
+    <label for="inputNomeClasse">Nome da classe:</label>
+    <input type="text" id="inputNomeClasse" style="height: 30px;font-size: 20px;"><br><br>
+    <label for="inputAtributos" style="height: 30px;">Atributos:</label>
+    <input type="text" id="inputAtributos" style="width: 800px;height: 30px;font-size: 20px;"><br><br>
+    <p>digite seus dados HTML(view) e JS(Controller):
+    </p>
+    <textarea id="dados" rows="15" cols="20" style="width:450px;"></textarea>
+    <br><br>
+    <input type="button" value="Model" onclick="gerarModel()" style="width:150px;">
+    <input type="button" value="View" onclick="gerarView()" style="width:150px;">
+    <input type="button" value="Controller" onclick="gerarController()" style="width:150px;">
+    <button onclick="csvButton()" style="width:150px;">CSV</button>
+
+    <br>
+    <button onclick="fazerDownloadClass()" style="width:200px;">fazer Download do class</button>
+    <button onclick="fazerDownloadViwe()" style="width:200px;">fazer Download do View</button>
+    <button onclick="fazerDownloadControle()" style="width:200px;">fazer Download do Controle</button>
+    <button onclick="fazerDownloadcsvButton()" style="width:200px;">fazer Download do CSV</button>
+    <br><br>
+    <textarea name="taCodigoFonte" id="taCodigoFonte" cols="259" rows="80" readonly></textarea>
+    <script src="./classGerador.js"></script>
+    <script src="./viewgerador.js"></script>
+    <script src="./controllerGerador.js"></script>
+    <script src="./csvGerador.js"></script>
+    <script>
+        function fazerDownloadControle() {
+            let nomeClasse = document.getElementById("inputNomeClasse").value;
+            const textoJS = document.getElementById("taCodigoFonte").value;  // Obtém o texto do textarea
+            const nomeParaSalvar = "controler" + nomeClasse + ".js";  // Nome do arquivo JavaScript
+
+            salvarEmArquivo(nomeParaSalvar, textoJS);  // Chama a função para salvar o arquivo
+        }
+
+        function salvarEmArquivo(nomeArq, conteudo) {
+            const blob = new Blob([conteudo], { type: "application/javascript" });  // Tipo MIME para arquivo JS
+            const link = document.createElement("a");  // Cria o link para download
+            link.href = URL.createObjectURL(blob);  // Cria um URL temporário para o arquivo
+            link.download = nomeArq;  // Define o nome do arquivo
+            link.click();  // Dispara o download
+            URL.revokeObjectURL(link.href);  // Revoga o link para liberar a memória
+        }
+        function fazerDownloadClass() {
+            let nomeClasse = document.getElementById("inputNomeClasse").value;
+            const textoJS = document.getElementById("taCodigoFonte").value;  // Obtém o texto do textarea
+            const nomeParaSalvar = "class" + nomeClasse + ".js";  // Nome do arquivo JavaScript
+
+            salvarEmArquivo1(nomeParaSalvar, textoJS);  // Chama a função para salvar o arquivo
+        }
+
+        function salvarEmArquivo1(nomeArq, conteudo) {
+            const blob = new Blob([conteudo], { type: "application/javascript" });  // Tipo MIME para arquivo JS
+            const link = document.createElement("a");  // Cria o link para download
+            link.href = URL.createObjectURL(blob);  // Cria um URL temporário para o arquivo
+            link.download = nomeArq;  // Define o nome do arquivo
+            link.click();  // Dispara o download
+            URL.revokeObjectURL(link.href);  // Revoga o link para liberar a memória
+        }
+        function fazerDownloadViwe() {
+            let nomeClasse = document.getElementById("inputNomeClasse").value;
+            const TestoHtml = document.getElementById("taCodigoFonte").value;  // Obtém o texto do textarea
+            const nomeParaSalvar = "view" + nomeClasse + ".html";  // Nome do arquivo JavaScript
+
+            salvarEmArquivo1(nomeParaSalvar, TestoHtml);  // Chama a função para salvar o arquivo
+        }
+
+        function salvarEmArquivo1(nomeArq, conteudo) {
+            const blob = new Blob([conteudo], { type: "text/html" });  // Tipo MIME para arquivo JS
+            const link = document.createElement("a");  // Cria o link para download
+            link.href = URL.createObjectURL(blob);  // Cria um URL temporário para o arquivo
+            link.download = nomeArq;  // Define o nome do arquivo
+            link.click();  // Dispara o download
+            URL.revokeObjectURL(link.href);  // Revoga o link para liberar a memória
+        }
+        function fazerDownloadcsvButton() {
+            let nomeClasse = document.getElementById("inputNomeClasse").value;
+            const csv = document.getElementById("taCodigoFonte").value;  // Obtém o texto do textarea
+            const nomeParaSalvar = nomeClasse + ".csv";  // Nome do arquivo JavaScript
+
+            salvarEmArquivo3(nomeParaSalvar, csv);  // Chama a função para salvar o arquivo
+        }
+
+        function salvarEmArquivo3(nomeArq, conteudo) {
+            /*cria um blob (objeto que representa dados de arquivo) que armazena "[conteudo]" como arquivo de texto,
+            criando um arquivo temporário*/
+            const blob = new Blob([conteudo], { type: 'text/csv' });
+            //cria o elemento "a" (link temporário) usado para adicionar o dowload do arquivo
+            const link = document.createElement('a'); /*cria uma URL temporária que aponta para o blob e
+    atribui ela ao href do link para que ele "aponte" para o arquivo gerado (permitindo seu download)*/
+            link.href = URL.createObjectURL(blob);
+            link.download = nomeArq; // Nome do arquivo de download
+            link.click(); //inicia o processo de dowload automaticamente
+            // Libera o objeto URL
+            URL.revokeObjectURL(link.href); //remove a URL temporária que foi criada (liberando a memória)
+        }
+    </script>
+
+</body>
+
+</html>
